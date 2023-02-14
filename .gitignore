@@ -1,3 +1,6 @@
 node_modules
 
 .idea
+
+src/api/*/.openapi-generator
+src/api/*/.openapi-generator-ignore

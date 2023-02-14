@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "run-p type-check build-only",
+    "gen-api": "openapi-generator-cli generate -i https://shopify-data.it.fantastiskefroe.dk/q/openapi -g typescript-fetch -o ./src/api/shopify-data --additional-properties=supportsES6=true",
+    "gen-api-test": "openapi-generator-cli generate -i https://shopify-data-test.it.fantastiskefroe.dk/q/openapi -g typescript-fetch -o ./src/api/shopify-data --additional-properties=supportsES6=true",
     "preview": "vite preview",
     "build-only": "vite build",
     "type-check": "vue-tsc --noEmit",
@@ -17,6 +19,7 @@
     "vue-router": "^4.1.6"
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.2",
     "@rushstack/eslint-patch": "^1.1.4",
     "@types/node": "^18.11.12",
     "@vitejs/plugin-vue": "^4.0.0",
