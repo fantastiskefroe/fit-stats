@@ -78,7 +78,7 @@ export default defineComponent({
             <img
                 :src="stat.product.mainImageUrl === '' ? 'https://cdn.shopify.com/s/files/1/0276/3902/1652/files/FantastiskeFroe_logo_mini_32x32.png?v=1583103209' : stat.product.mainImageUrl"
                 loading="lazy" class="img-thumbnail"
-                :alt="stat.variant.title">
+                :alt="stat.product.title">
           </td>
           <td>
             {{ stat.product.title }}
