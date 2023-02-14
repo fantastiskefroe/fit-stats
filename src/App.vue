@@ -8,7 +8,7 @@ import SettingsPane from "@/components/SettingsPane.vue";</script>
   <nav class="navbar navbar-expand">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
-        FantastiskeFrø stats
+        FantastiskeFrø
       </a>
       <div class="navbar-collapse">
         <ul class="navbar-nav me-auto">
@@ -40,7 +40,10 @@ import SettingsPane from "@/components/SettingsPane.vue";</script>
     </div>
   </nav>
 
-  <RouterView/>
+  <div class="container">
+    <RouterView/>
+  </div>
+
 </template>
 
 <style scoped>
