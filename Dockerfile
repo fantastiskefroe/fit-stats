@@ -29,4 +29,4 @@ EXPOSE 8043
 
 #ENTRYPOINT ["/goStatic"]
 # Fallback to index.html to support routing
-CMD ["-fallback",  "/srv/http/index.html"]
+CMD ["-enable-logging", "-fallback", "/srv/http/index.html"]
