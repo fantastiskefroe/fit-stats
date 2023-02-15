@@ -24,8 +24,8 @@ FROM pierrezemb/gostatic:latest
 # Copy the build output
 COPY --from=build /usr/local/app/dist /srv/http
 
-# Fallback to index.html to support routing
-CMD ["-fallback",  "/srv/http/index.html"]
-
 # Expose port 8043
 EXPOSE 8043
+
+# Fallback to index.html to support routing
+ENTRYPOINT ["/goStatic -fallback",  "/srv/http/index.html"]
