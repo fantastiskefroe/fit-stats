@@ -30,12 +30,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           push: true
-          outputs: |
-            type=image
-            name=target
-            annotation-index.maintainer=${{ github.repository_owner }}
-            annotation-index.org.opencontainers.image.source=https://github.com/${{ github.repository }}
-            annotation-index.org.opencontainers.image.description=Commit message: ${{ github.event.head_commit.message }}
+          outputs: type=image,name=target,annotation-index.maintainer=${{ github.repository_owner }}
           labels: |
             maintainer=${{ github.repository_owner }}
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
