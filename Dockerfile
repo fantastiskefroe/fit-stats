@@ -27,6 +27,6 @@ COPY --from=build /usr/local/app/dist /srv/http
 # Expose port 8043
 EXPOSE 8044
 
-ENTRYPOINT ["/goStatic -port 8044"]
+#ENTRYPOINT ["/goStatic -port 8044"]
 # Fallback to index.html to support routing
-#CMD ["-enable-logging", "-fallback", "/srv/http/index.html"]
+CMD ["-fallback", "/srv/http/index.html"]
