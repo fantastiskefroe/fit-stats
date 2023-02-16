@@ -1,0 +1,98 @@
+<script lang="ts">
+import '@vuepic/vue-datepicker/dist/main.css';
+import {defineComponent, type PropType} from "vue";
+import type {ProductVariantStatsOutput} from "@/api/shopify-data";
+import type {Sorting} from "@/components/remainingTable/Sorting";
+import type {Row} from "@/components/remainingTable/Row";
+import RemainingTableRow from "@/components/remainingTable/RemainingTableRow.vue";
+import SortingHeader from "@/components/remainingTable/SortingHeader.vue";
+
+export default defineComponent({
+  name: "RemainingTable",
+  components: {SortingHeader, RemainingTableRow},
+  props: {
+    input: {type: Array as PropType<ProductVariantStatsOutput[]>, required: true}
+  },
+  data() {
+    return {
+      currentSorting: {column: "daysRemaining", direction: 1} as Sorting,
+    };
+  },
+  computed: {
+    mappedInput(): Row[] {
+      return this.input.map((stat) => ({
+        id: stat.variant.shopifyId,
+        imgSrc: stat.product.mainImageUrl !== '' ? stat.product.mainImageUrl : 'https://cdn.shopify.com/s/files/1/0276/3902/1652/files/FantastiskeFroe_logo_mini_32x32.png?v=1583103209',
+        title: stat.product.title,
+        subTitle: stat.variant.title ?? "",
+        inventoryRemaining: stat.variant.inventoryQuantity,
+        soldPerDay: stat.soldPerDay,
+        daysRemaining: stat.daysLeft,
+        numberSold: stat.numSold
+      }));
+    },
+    filteredAndSortedRows(): Row[] {
+      const copy = [...this.mappedInput];
+
+      return this.sort(copy);
+    },
+  },
+  methods: {
+    sort(input: Row[]): Row[] {
+      const column = this.currentSorting.column;
+      const direction = this.currentSorting.direction;
+
+      return input
+      .sort((a: Row, b: Row) => {
+        if (typeof a[column] === "string") {
+          return direction * this.sortLexicographic(a[column] as string, b[column] as string);
+        }
+
+        return direction * this.sortNumeric(a[column] as number, b[column] as number);
+      });
+    },
+    sortLexicographic(a: string, b: string): number {
+      return a.localeCompare(b, 'da');
+    },
+    sortNumeric(a: number, b: number): number {
+      return a - b;
+    },
+  }
+});
+</script>
+
+<template>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead class="sticky-top bg-white">
+      <tr>
+        <th></th>
+        <SortingHeader :title="'Titel'" :column="'title'" :type="'LEXICOGRAPHIC'"
+                       :current-sorting="currentSorting"
+                       @sorting-updated="currentSorting = $event"/>
+        <SortingHeader :title="'Antal tilbage'" :column="'inventoryRemaining'" :type="'NUMERIC'"
+                       :current-sorting="currentSorting"
+                       @sorting-updated="currentSorting = $event"/>
+        <SortingHeader :title="'Solgt per dag'" :column="'soldPerDay'" :type="'NUMERIC'"
+                       :current-sorting="currentSorting"
+                       @sorting-updated="currentSorting = $event"/>
+        <SortingHeader :title="'Dage tilbage'" :column="'daysRemaining'" :type="'NUMERIC'"
+                       :current-sorting="currentSorting"
+                       @sorting-updated="currentSorting = $event"/>
+        <SortingHeader :title="'Antal solgt'" :column="'numberSold'" :type="'NUMERIC'"
+                       :current-sorting="currentSorting"
+                       @sorting-updated="currentSorting = $event"/>
+      </tr>
+      </thead>
+      <tbody class="table-group-divider">
+      <RemainingTableRow v-for="row in filteredAndSortedRows" v-bind:key="row.id" :row="row"/>
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.img-thumbnail {
+  height: 48px !important;
+}
+</style>
