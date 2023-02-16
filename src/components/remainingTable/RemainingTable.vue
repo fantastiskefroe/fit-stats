@@ -90,9 +90,3 @@ export default defineComponent({
     </table>
   </div>
 </template>
-
-<style scoped lang="scss">
-.img-thumbnail {
-  height: 48px !important;
-}
-</style>

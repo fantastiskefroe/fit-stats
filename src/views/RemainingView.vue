@@ -14,6 +14,7 @@ export default defineComponent({
   components: {RemainingTable, Datepicker},
   data() {
     return {
+      loading: false,
       fromDate: startOfMonth(now),
       productVariantStats: [] as ProductVariantStatsOutput[],
       fitToken: "" as string
@@ -21,11 +22,16 @@ export default defineComponent({
   },
   methods: {
     fetch(): void {
+      this.loading = true;
+
       StatsApi.getProductVariantStats({
         from: startOfDay(this.fromDate),
         xFitToken: this.fitToken
       })
-      .then((productVariantStats: ProductVariantStatsOutput[]) => this.productVariantStats = productVariantStats);
+      .then((productVariantStats: ProductVariantStatsOutput[]) => {
+        this.productVariantStats = productVariantStats;
+        this.loading = false;
+      });
     },
   },
   watch: {
@@ -55,12 +61,19 @@ export default defineComponent({
   </div>
 
   <div class="row">
-    <RemainingTable :input="productVariantStats"/>
+    <div v-if="loading" class="d-flex justify-content-center mt-5 text-primary">
+      <div class="spinner-border" role="status">
+        <span class="visually-hidden">Henter data...</span>
+      </div>
+    </div>
+
+    <RemainingTable v-else :input="productVariantStats"/>
   </div>
 </template>
 
 <style scoped lang="scss">
-.img-thumbnail {
-  height: 48px !important;
+.spinner-border {
+  width: 4rem;
+  height: 4rem;
 }
 </style>

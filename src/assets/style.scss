@@ -1,7 +1,18 @@
-@import 'node_modules/bootstrap/scss/bootstrap';
+$color-brand: #455f48;
+$color-secondary: #6c757d;
+
+$theme-colors: (
+    'primary': $color-brand,
+    'secondary': $color-secondary,
+);
 
 .bi {
   display: inline-block;
-  vertical-align: -0.125em;
+  vertical-align: -0.3em;
   fill: currentcolor;
+  height: 1.3em;
+  width: 1.3em;
 }
+
+@import 'node_modules/bootstrap/scss/bootstrap';
+
