@@ -2,7 +2,7 @@
 import {StatsApi} from '@/util/api';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-import {subDays, startOfDay, startOfMonth, startOfYear} from "date-fns";
+import {startOfDay, startOfMonth, startOfYear, subDays} from "date-fns";
 import {defineComponent} from "vue";
 import type {ProductVariantStatsOutput} from "@/api/shopify-data";
 import {loadToken} from "@/util/token-service";
@@ -47,6 +47,12 @@ export default defineComponent({
       }
     },
   },
+  computed: {
+    tags(): string[] {
+      return [...new Set(this.productVariantStats
+      .flatMap((stats: ProductVariantStatsOutput) => stats.product.tags))];
+    }
+  },
   watch: {
     fromDate(): void {
       this.fetch();
@@ -60,13 +66,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="row my-3">
+  <div class="row my-4">
     <h1 class="display-4">
       Tilbageværende lager
     </h1>
   </div>
 
-  <div class="row">
+  <div class="row mb-3">
     <div class="col-3">
       <Datepicker id="fromDateInput" v-model="fromDate" auto-apply
                   :close-on-auto-apply="true" :clearable="false"
@@ -75,20 +81,36 @@ export default defineComponent({
 
     <div class="col-3">
       <div class="d-grid">
-        <button type="button" class="btn btn-outline-primary" @click="setDate('START-YEAR')">I år</button>
+        <button type="button" class="btn btn-outline-primary" @click="setDate('START-YEAR')">I år
+        </button>
       </div>
     </div>
 
     <div class="col-3">
       <div class="d-grid">
-        <button type="button" class="btn btn-outline-primary"  @click="setDate('START-MONTH')">Denne måned</button>
+        <button type="button" class="btn btn-outline-primary" @click="setDate('START-MONTH')">Denne
+          måned
+        </button>
       </div>
     </div>
 
     <div class="col-3">
       <div class="d-grid">
-        <button type="button" class="btn btn-outline-primary" @click="setDate('30-DAYS')" >Sidste 30 dage</button>
+        <button type="button" class="btn btn-outline-primary" @click="setDate('30-DAYS')">Sidste 30
+          dage
+        </button>
       </div>
+    </div>
+  </div>
+
+  <div class="row mb-3">
+    <div>
+    <label for="exampleDataList" class="form-label">Tags</label>
+      <input class="form-control" list="datalistOptions" id="exampleDataList"
+             placeholder="Søg efter tag...">
+      <datalist id="datalistOptions">
+        <option v-for="tag in tags" v-bind:key="tag" :value="tag"/>
+      </datalist>
     </div>
   </div>
 

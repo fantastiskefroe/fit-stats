@@ -25,13 +25,13 @@ export default defineComponent({
 
 <template>
   <tr class="align-middle">
-    <td class="text-center">
+    <td class="text-center img-col">
       <img
+          loading="lazy"
           :src="row.imgSrc"
-          loading="lazy" class="img-thumbnail"
           :alt="row.title">
     </td>
-    <td>
+    <td class="title-col">
       {{ row.title }}
       <br>
       <span class="text-secondary">
@@ -59,7 +59,17 @@ export default defineComponent({
 </template>
 
 <style scoped lang="scss">
-.img-thumbnail {
-  height: 48px !important;
+.img-col {
+  min-width: 100px;
+
+  img {
+    height: 48px !important;
+  }
 }
+
+.title-col {
+  min-width: 400px;
+}
+
+
 </style>
