@@ -15,6 +15,7 @@ export default defineComponent({
   },
   data() {
     return {
+      rowsShown: 30,
       currentSorting: {column: "daysRemaining", direction: 1} as Sorting,
     };
   },
@@ -34,7 +35,7 @@ export default defineComponent({
     filteredAndSortedRows(): Row[] {
       const copy = [...this.mappedInput];
 
-      return this.sort(copy);
+      return this.sort(copy).slice(0, this.rowsShown);
     },
   },
   methods: {

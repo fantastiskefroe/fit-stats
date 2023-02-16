@@ -2,7 +2,7 @@
 import {StatsApi} from '@/util/api';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-import {startOfDay, startOfMonth} from "date-fns";
+import {subDays, startOfDay, startOfMonth, startOfYear} from "date-fns";
 import {defineComponent} from "vue";
 import type {ProductVariantStatsOutput} from "@/api/shopify-data";
 import {loadToken} from "@/util/token-service";
@@ -33,6 +33,19 @@ export default defineComponent({
         this.loading = false;
       });
     },
+    setDate(type: 'START-YEAR' | 'START-MONTH' | '30-DAYS'): void {
+      switch (type) {
+        case "START-YEAR":
+          this.fromDate = startOfYear(now);
+          break;
+        case "START-MONTH":
+          this.fromDate = startOfMonth(now);
+          break;
+        case "30-DAYS":
+          this.fromDate = subDays(now, 30);
+          break;
+      }
+    },
   },
   watch: {
     fromDate(): void {
@@ -53,11 +66,30 @@ export default defineComponent({
     </h1>
   </div>
 
-  <div class="col gy-3">
-    <label for="fromDateInput" class="form-label">Fra dato</label>
-    <Datepicker id="fromDateInput" v-model="fromDate" auto-apply
-                :close-on-auto-apply="true" :clearable="false"
-                :enable-time-picker="false"/>
+  <div class="row">
+    <div class="col-3">
+      <Datepicker id="fromDateInput" v-model="fromDate" auto-apply
+                  :close-on-auto-apply="true" :clearable="false"
+                  :enable-time-picker="false"/>
+    </div>
+
+    <div class="col-3">
+      <div class="d-grid">
+        <button type="button" class="btn btn-outline-primary" @click="setDate('START-YEAR')">I år</button>
+      </div>
+    </div>
+
+    <div class="col-3">
+      <div class="d-grid">
+        <button type="button" class="btn btn-outline-primary"  @click="setDate('START-MONTH')">Denne måned</button>
+      </div>
+    </div>
+
+    <div class="col-3">
+      <div class="d-grid">
+        <button type="button" class="btn btn-outline-primary" @click="setDate('30-DAYS')" >Sidste 30 dage</button>
+      </div>
+    </div>
   </div>
 
   <div class="row">
