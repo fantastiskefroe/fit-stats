@@ -28,5 +28,4 @@ COPY --from=build /usr/local/app/dist /srv/http
 EXPOSE 8043
 
 # Fallback to index.html to support routing
-#CMD ["-fallback", "/srv/http/index.html"]
-CMD ["-enable-logging"]
+CMD ["-enable-logging", "-fallback", "/srv/http/index.html"]
