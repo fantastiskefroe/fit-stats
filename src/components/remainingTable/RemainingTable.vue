@@ -15,7 +15,7 @@ export default defineComponent({
   },
   data() {
     return {
-      rowsShown: 30,
+      rowsShown: 30 as number | undefined,
       currentSorting: {column: "daysRemaining", direction: 1} as Sorting,
     };
   },
@@ -90,4 +90,19 @@ export default defineComponent({
       </tbody>
     </table>
   </div>
+
+  <div>
+    <div class="d-grid mb-4">
+      <button type="button" class="btn btn-outline-primary"
+              v-if="rowsShown !== undefined"
+              @click="rowsShown = undefined">
+        Vis alle
+      </button>
+      <button type="button" class="btn btn-outline-primary" v-else
+              @click="rowsShown = 30">
+        Vis 30 første
+      </button>
+    </div>
+  </div>
+
 </template>
