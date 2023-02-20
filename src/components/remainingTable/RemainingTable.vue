@@ -6,12 +6,14 @@ import type {Sorting} from "@/components/remainingTable/Sorting";
 import type {Row} from "@/components/remainingTable/Row";
 import RemainingTableRow from "@/components/remainingTable/RemainingTableRow.vue";
 import SortingHeader from "@/components/remainingTable/SortingHeader.vue";
+import type {Filter} from "@/components/remainingTable/Filter";
 
 export default defineComponent({
   name: "RemainingTable",
   components: {SortingHeader, RemainingTableRow},
   props: {
-    input: {type: Array as PropType<ProductVariantStatsOutput[]>, required: true}
+    input: {type: Array as PropType<ProductVariantStatsOutput[]>, required: true},
+    filters: {type: Array as PropType<Filter[]>, required: true}
   },
   data() {
     return {
@@ -20,8 +22,23 @@ export default defineComponent({
     };
   },
   computed: {
+    filteredInput(): ProductVariantStatsOutput[] {
+      const filters = this.filters
+      .map((filter) => {
+        switch (filter.type) {
+          case "TAG":
+            return (stats: ProductVariantStatsOutput[]) => stats.filter((stat) => stat.product.tags.includes(filter.field));
+          case "PRODUCT_TYPE":
+            return (stats: ProductVariantStatsOutput[]) => stats.filter((stat) => stat.product.productType === filter.field);
+          case "VENDOR":
+            return (stats: ProductVariantStatsOutput[]) => stats.filter((stat) => stat.product.vendor === filter.field);
+        }
+      });
+
+      return filters.reduce((rows, filter) => filter(rows), this.input);
+    },
     mappedInput(): Row[] {
-      return this.input.map((stat) => ({
+      return this.filteredInput.map((stat) => ({
         id: stat.variant.shopifyId,
         imgSrc: stat.product.mainImageUrl !== '' ? stat.product.mainImageUrl : 'https://cdn.shopify.com/s/files/1/0276/3902/1652/files/FantastiskeFroe_logo_mini_32x32.png?v=1583103209',
         title: stat.product.title,
@@ -33,9 +50,7 @@ export default defineComponent({
       }));
     },
     filteredAndSortedRows(): Row[] {
-      const copy = [...this.mappedInput];
-
-      return this.sort(copy).slice(0, this.rowsShown);
+      return this.sort([...this.mappedInput]).slice(0, this.rowsShown);
     },
   },
   methods: {
@@ -53,7 +68,7 @@ export default defineComponent({
       });
     },
     sortLexicographic(a: string, b: string): number {
-      return a.localeCompare(b, 'da');
+      return a.localeCompare(b, 'da-DK');
     },
     sortNumeric(a: number, b: number): number {
       return a - b;
