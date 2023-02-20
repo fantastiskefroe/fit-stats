@@ -27,11 +27,11 @@ export default defineComponent({
       .map((filter) => {
         switch (filter.type) {
           case "TAG":
-            return (stats: ProductVariantStatsOutput[]) => stats.filter((stat) => stat.product.tags.includes(filter.field));
+            return (stats: ProductVariantStatsOutput[]) => stats.filter((stat) => stat.product.tags.includes(filter.value));
           case "PRODUCT_TYPE":
-            return (stats: ProductVariantStatsOutput[]) => stats.filter((stat) => stat.product.productType === filter.field);
+            return (stats: ProductVariantStatsOutput[]) => stats.filter((stat) => stat.product.productType === filter.value);
           case "VENDOR":
-            return (stats: ProductVariantStatsOutput[]) => stats.filter((stat) => stat.product.vendor === filter.field);
+            return (stats: ProductVariantStatsOutput[]) => stats.filter((stat) => stat.product.vendor === filter.value);
         }
       });
 
