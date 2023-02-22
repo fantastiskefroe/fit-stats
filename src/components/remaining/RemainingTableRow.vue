@@ -1,7 +1,7 @@
 <script lang="ts">
 import '@vuepic/vue-datepicker/dist/main.css';
 import {defineComponent, type PropType} from "vue";
-import type {Row} from "@/components/remainingTable/Row";
+import type {Row} from "@/components/remaining/Row";
 import {Tooltip} from "bootstrap";
 import {addDays} from "date-fns";
 

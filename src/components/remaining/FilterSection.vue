@@ -36,7 +36,7 @@
 <script lang="ts">
 import type {PropType} from "vue";
 import {defineComponent} from "vue";
-import type {FilterType} from "@/components/remainingTable/Filter";
+import type {FilterType} from "@/components/remaining/Filter";
 
 export default defineComponent({
   name: 'FilterSection',

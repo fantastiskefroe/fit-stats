@@ -47,7 +47,7 @@
 <script lang="ts">
 import type {PropType} from "vue";
 import {defineComponent} from "vue";
-import type {Sorting, SortingColumn} from "@/components/remainingTable/Sorting";
+import type {Sorting, SortingColumn} from "@/components/remaining/Sorting";
 
 export default defineComponent({
   name: 'SortingHeader',

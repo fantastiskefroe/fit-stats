@@ -2,11 +2,11 @@
 import '@vuepic/vue-datepicker/dist/main.css';
 import {defineComponent, type PropType} from "vue";
 import type {ProductVariantStatsOutput} from "@/api/shopify-data";
-import type {Sorting} from "@/components/remainingTable/Sorting";
-import type {Row} from "@/components/remainingTable/Row";
-import RemainingTableRow from "@/components/remainingTable/RemainingTableRow.vue";
-import SortingHeader from "@/components/remainingTable/SortingHeader.vue";
-import type {Filter} from "@/components/remainingTable/Filter";
+import type {Sorting} from "@/components/remaining/Sorting";
+import type {Row} from "@/components/remaining/Row";
+import RemainingTableRow from "@/components/remaining/RemainingTableRow.vue";
+import SortingHeader from "@/components/remaining/SortingHeader.vue";
+import type {Filter} from "@/components/remaining/Filter";
 
 export default defineComponent({
   name: "RemainingTable",
