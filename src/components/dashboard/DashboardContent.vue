@@ -2,7 +2,17 @@
 import {StatsApi} from '@/util/api';
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
-import {addDays, startOfDay} from "date-fns";
+import {
+  addDays,
+  endOfMonth,
+  endOfYear,
+  startOfDay,
+  startOfMonth,
+  startOfYear,
+  subDays,
+  subMonths,
+  subYears
+} from "date-fns";
 import {defineComponent} from "vue";
 import type {StatsOutput} from "@/api/shopify-data";
 import {loadToken} from "@/util/token-service";
@@ -16,7 +26,17 @@ export default defineComponent({
   data() {
     return {
       date: [now, now],
-      loading: false,
+      presetRanges: [
+        {label: 'I dag', range: [now, now]},
+        {label: 'I går', range: [subDays(now, 1), subDays(now, 1)]},
+        {label: 'Denne måned', range: [startOfMonth(now), endOfMonth(now)]},
+        {
+          label: 'Sidste måned',
+          range: [startOfMonth(subMonths(now, 1)), endOfMonth(subMonths(now, 1))]
+        },
+        {label: 'I år', range: [startOfYear(now), endOfYear(now)]},
+        {label: 'Sidste år', range: [startOfYear(subYears(now, 1)), endOfYear(subYears(now, 1))]}
+      ],
       stats: undefined as StatsOutput | undefined,
       taxesIncluded: true,
       fitToken: "" as string
@@ -30,7 +50,7 @@ export default defineComponent({
         return;
       }
 
-      this.loading = true;
+      this.stats = undefined;
 
       StatsApi.getStats({
         from,
@@ -39,7 +59,6 @@ export default defineComponent({
       })
       .then((statsOutput: StatsOutput) => {
         this.stats = statsOutput;
-        this.loading = false;
       });
     },
     formatCurrency(input: number | undefined): string | undefined {
@@ -78,16 +97,17 @@ export default defineComponent({
   <div class="row mb-3">
     <div class="col-8 col-md-4">
       <div class="row">
-        <Datepicker v-model="date" auto-apply :range="true"
+        <Datepicker v-model="date" :preset-ranges="presetRanges" auto-apply week-numbers="iso"
+                    :range="true" :multi-calendars="true"
                     :close-on-auto-apply="true" :clearable="false"
                     :enable-time-picker="false"/>
       </div>
     </div>
     <div class="col-4 col-md-4 d-flex align-items-center">
       <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" v-model="taxesIncluded" checked
+        <input class="form-check-input clickable" type="checkbox" v-model="taxesIncluded" checked
                id="taxesIncludedSwitch">
-        <label class="form-check-label" for="taxesIncludedSwitch">Moms</label>
+        <label class="form-check-label clickable" for="taxesIncludedSwitch">Moms</label>
       </div>
     </div>
   </div>

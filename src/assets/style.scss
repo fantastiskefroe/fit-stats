@@ -14,5 +14,9 @@ $theme-colors: (
   width: 1.3em;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 @import 'node_modules/bootstrap/scss/bootstrap';
 
