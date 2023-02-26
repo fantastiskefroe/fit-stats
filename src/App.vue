@@ -5,12 +5,17 @@ import SettingsPane from "@/components/SettingsPane.vue";</script>
 <template>
   <SettingsPane></SettingsPane>
 
-  <nav class="navbar navbar-expand">
+  <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">
         FantastiskeFrø
       </a>
-      <div class="navbar-collapse">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+              data-bs-target="#navbarCollapseContent" aria-controls="navbarCollapseContent"
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapseContent">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
             <RouterLink class="nav-link" to="/">Hjem</RouterLink>

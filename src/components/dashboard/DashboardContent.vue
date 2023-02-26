@@ -76,54 +76,60 @@ export default defineComponent({
 
 <template>
   <div class="row mb-3">
-    <div class="col-4">
+    <div class="col-8 col-md-4">
       <div class="row">
         <Datepicker v-model="date" auto-apply :range="true"
                     :close-on-auto-apply="true" :clearable="false"
                     :enable-time-picker="false"/>
       </div>
     </div>
-    <div class="col-4">
+    <div class="col-4 col-md-4 d-flex align-items-center">
       <div class="form-check form-switch">
         <input class="form-check-input" type="checkbox" v-model="taxesIncluded" checked
                id="taxesIncludedSwitch">
-        <label class="form-check-label" for="taxesIncludedSwitch">Moms inkluderet</label>
+        <label class="form-check-label" for="taxesIncludedSwitch">Moms</label>
       </div>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-4">
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="col">
       <DataCard :data="stats?.numberOfOrders?.toLocaleString('da-dk')"
-                title="Antal ordrer" class="mb-4"/>
-
+                title="Ordrer"/>
+    </div>
+    <div class="col">
+      <DataCard :data="formatCurrency(stats?.totalOrderValue)"
+                title="Total salg"/>
+    </div>
+    <div class="col">
+      <DataCard :data="formatCurrency(stats?.averageOrderValue)"
+                title="Gennemsnitsordre"/>
+    </div>
+    <div class="col">
       <DataCard :data="stats?.numberOfOrderLines?.toLocaleString('da-dk')"
-                title="Antal ordrelinjer" class="mb-4"/>
-
+                title="Ordrelinjer"/>
+    </div>
+    <div class="col">
+      <DataCard :data="formatCurrency(stats?.totalOrderLineValue)"
+                title="Total ordrelinjeværdi"/>
+    </div>
+    <div class="col">
+      <DataCard :data="formatCurrency(stats?.averageOrderLineValue)"
+                title="Gennemsnitsordrelinje"/>
+    </div>
+    <div class="col">
       <DataCard v-if="stats?.totalOrderWeight != null"
                 :data="formatWeight(stats?.totalOrderWeight, 'kg')"
-                title="Total vægt" class="mb-4"/>
+                title="Total vægt"/>
     </div>
-    <div class="col-4">
-      <DataCard :data="formatCurrency(stats?.totalOrderValue)"
-                title="Total salg" class="mb-4"/>
-
-      <DataCard :data="formatCurrency(stats?.totalOrderLineValue)"
-                title="Total ordrelinje værdi" class="mb-4"/>
-
+    <div class="col">
       <DataCard :data="formatCurrency(stats?.totalShippingValue)"
-                title="Total fragt værdi" class="mb-4"/>
+                title="Total fragt"/>
     </div>
-    <div class="col-4">
-      <DataCard :data="formatCurrency(stats?.averageOrderValue)"
-                title="Gennemsnitsordre" class="mb-4"/>
-
-      <DataCard :data="formatCurrency(stats?.averageOrderLineValue)"
-                title="Gennemsnitsordrelinje" class="mb-4"/>
-
+    <div class="col">
       <DataCard v-if="stats?.totalOrderWeight != null"
                 :data="formatWeight(stats?.averageOrderWeight, 'kg')"
-                title="Gennemsnits vægt" class="mb-4"/>
+                title="Gennemsnitsvægt"/>
     </div>
   </div>
 </template>
