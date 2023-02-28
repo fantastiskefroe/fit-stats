@@ -61,14 +61,19 @@ export default defineComponent({
         this.stats = statsOutput;
       });
     },
-    formatCurrency(input: number | undefined): string | undefined {
+    taxMultiplier(input?: number): number | undefined {
       if (input == null) {
         return undefined;
       }
 
-      const value = this.taxesIncluded ? input : input * 0.8;
+      return this.taxesIncluded ? input : input * 0.8;
+    },
+    formatCurrency(input?: number): string | undefined {
+      if (input == null) {
+        return undefined;
+      }
 
-      return value.toLocaleString('da-dk', {currency: 'DKK', style: 'currency'});
+      return input.toLocaleString('da-dk', {currency: 'DKK', style: 'currency'});
     },
     formatWeight(input: number | undefined | null, type: 'kg' | 'g'): string | undefined {
       if (input == null) {
@@ -114,41 +119,50 @@ export default defineComponent({
 
   <div class="row row-cols-1 row-cols-md-3 g-4">
     <div class="col">
-      <DataCard :data="stats?.numberOfOrders?.toLocaleString('da-dk')"
+      <DataCard :data="stats?.numberOfOrders?.toLocaleString('da-dk', {useGrouping: false})"
+                :data-formatted="stats?.numberOfOrders?.toLocaleString('da-dk')"
                 title="Ordrer"/>
     </div>
     <div class="col">
-      <DataCard :data="formatCurrency(stats?.totalOrderValue)"
+      <DataCard :data="taxMultiplier(stats?.totalOrderValue)?.toLocaleString('da-dk', {useGrouping: false})"
+                :data-formatted="formatCurrency(taxMultiplier(stats?.totalOrderValue))"
                 title="Total salg"/>
     </div>
     <div class="col">
-      <DataCard :data="formatCurrency(stats?.averageOrderValue)"
+      <DataCard :data="taxMultiplier(stats?.averageOrderValue)?.toLocaleString('da-dk', {useGrouping: false})"
+                :data-formatted="formatCurrency(taxMultiplier(stats?.averageOrderValue))"
                 title="Gennemsnitsordre"/>
     </div>
     <div class="col">
-      <DataCard :data="stats?.numberOfOrderLines?.toLocaleString('da-dk')"
+      <DataCard :data="stats?.numberOfOrderLines?.toLocaleString('da-dk', {useGrouping: false})"
+                :data-formatted="stats?.numberOfOrderLines?.toLocaleString('da-dk')"
                 title="Ordrelinjer"/>
     </div>
     <div class="col">
-      <DataCard :data="formatCurrency(stats?.totalOrderLineValue)"
+      <DataCard :data="taxMultiplier(stats?.totalOrderLineValue)?.toLocaleString('da-dk', {useGrouping: false})"
+                :data-formatted="formatCurrency(taxMultiplier(stats?.totalOrderLineValue))"
                 title="Total ordrelinjeværdi"/>
     </div>
     <div class="col">
-      <DataCard :data="formatCurrency(stats?.averageOrderLineValue)"
+      <DataCard :data="taxMultiplier(stats?.averageOrderLineValue)?.toLocaleString('da-dk', {useGrouping: false})"
+                :data-formatted="formatCurrency(taxMultiplier(stats?.averageOrderLineValue))"
                 title="Gennemsnitsordrelinje"/>
     </div>
     <div class="col">
       <DataCard v-if="stats?.totalOrderWeight != null"
-                :data="formatWeight(stats?.totalOrderWeight, 'kg')"
+                :data="stats?.totalOrderWeight?.toLocaleString('da-dk', {useGrouping: false})"
+                :data-formatted="formatWeight(stats?.totalOrderWeight, 'kg')"
                 title="Total vægt"/>
     </div>
     <div class="col">
-      <DataCard :data="formatCurrency(stats?.totalShippingValue)"
+      <DataCard :data="taxMultiplier(stats?.totalShippingValue)?.toLocaleString('da-dk', {useGrouping: false})"
+                :data-formatted="formatCurrency(taxMultiplier(stats?.totalShippingValue))"
                 title="Total fragt"/>
     </div>
     <div class="col">
       <DataCard v-if="stats?.totalOrderWeight != null"
-                :data="formatWeight(stats?.averageOrderWeight, 'kg')"
+                :data="stats?.averageOrderWeight?.toLocaleString('da-dk', {useGrouping: false})"
+                :data-formatted="formatWeight(stats?.averageOrderWeight, 'kg')"
                 title="Gennemsnitsvægt"/>
     </div>
   </div>
