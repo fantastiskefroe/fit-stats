@@ -43,6 +43,7 @@ export default defineComponent({
         imgSrc: stat.product.mainImageUrl !== '' ? stat.product.mainImageUrl : 'https://cdn.shopify.com/s/files/1/0276/3902/1652/files/FantastiskeFroe_logo_mini_32x32.png?v=1583103209',
         title: stat.product.title,
         subTitle: stat.variant.title ?? "",
+        sku: stat.variant.sku,
         inventoryRemaining: stat.variant.inventoryQuantity,
         soldPerDay: stat.soldPerDay,
         daysRemaining: stat.daysLeft,
@@ -84,6 +85,9 @@ export default defineComponent({
       <tr>
         <th></th>
         <SortingHeader :title="'Titel'" :column="'title'" :type="'LEXICOGRAPHIC'"
+                       :current-sorting="currentSorting"
+                       @sorting-updated="currentSorting = $event"/>
+        <SortingHeader :title="'SKU'" :column="'sku'" :type="'LEXICOGRAPHIC'"
                        :current-sorting="currentSorting"
                        @sorting-updated="currentSorting = $event"/>
         <SortingHeader :title="'Antal tilbage'" :column="'inventoryRemaining'" :type="'NUMERIC'"

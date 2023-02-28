@@ -3,6 +3,7 @@ export interface Row {
   imgSrc: string;
   title: string;
   subTitle: string;
+  sku: string;
   inventoryRemaining: number;
   soldPerDay: number;
   daysRemaining: number;

@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import {RouterLink, RouterView} from 'vue-router'
-import SettingsPane from "@/components/SettingsPane.vue";</script>
+import SettingsPane from "@/components/SettingsPane.vue";
+import ToastComponent from "@/components/toast/ToastComponent.vue";</script>
 
 <template>
   <SettingsPane></SettingsPane>
+  <ToastComponent></ToastComponent>
 
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">

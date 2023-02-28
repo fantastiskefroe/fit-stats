@@ -18,5 +18,9 @@ $theme-colors: (
   cursor: pointer;
 }
 
+.copy {
+  cursor: copy;
+}
+
 @import 'node_modules/bootstrap/scss/bootstrap';
 

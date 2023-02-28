@@ -4,6 +4,7 @@ import {defineComponent, type PropType} from "vue";
 import type {Row} from "@/components/remaining/Row";
 import {Tooltip} from "bootstrap";
 import {addDays} from "date-fns";
+import {CopyService} from "@/util/copy-service";
 
 export default defineComponent({
   name: "RemainingTableRow",
@@ -13,6 +14,11 @@ export default defineComponent({
   computed: {
     lastDay(): string {
       return addDays(new Date(), this.row.daysRemaining).toLocaleDateString();
+    }
+  },
+  methods: {
+    copy(text: string): void {
+      CopyService.copy(text);
     }
   },
   mounted() {
@@ -36,6 +42,11 @@ export default defineComponent({
       <br>
       <span class="text-secondary">
         {{ row.subTitle }}
+      </span>
+    </td>
+    <td>
+     <span class="text-secondary copy" @click="copy(row.sku)">
+        {{ row.sku }}
       </span>
     </td>
     <td>
@@ -68,7 +79,7 @@ export default defineComponent({
 }
 
 .title-col {
-  min-width: 400px;
+  min-width: 300px;
 }
 
 
