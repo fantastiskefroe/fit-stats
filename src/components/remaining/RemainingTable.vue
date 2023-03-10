@@ -35,7 +35,10 @@ export default defineComponent({
         }
       });
 
-      return filters.reduce((rows, filter) => filter(rows), this.input);
+      return [
+        ...filters,
+        (stats: ProductVariantStatsOutput[]) => stats.filter((stat) => stat.variant.inventoryQuantity >= 0)
+      ].reduce((rows, filter) => filter(rows), this.input);
     },
     mappedInput(): Row[] {
       return this.filteredInput.map((stat) => ({

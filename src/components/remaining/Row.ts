@@ -6,6 +6,6 @@ export interface Row {
   sku: string;
   inventoryRemaining: number;
   soldPerDay: number;
-  daysRemaining: number;
+  daysRemaining: number | string;
   numberSold: number;
 }

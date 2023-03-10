@@ -12,7 +12,18 @@ export default defineComponent({
     row: {type: Object as PropType<Row>, required: true}
   },
   computed: {
+    daysRemaining(): string {
+      if (typeof this.row.daysRemaining == "string" ) {
+        return this.row.daysRemaining;
+      }
+
+      return this.row.daysRemaining.toFixed(1);
+    },
     lastDay(): string {
+      if (typeof this.row.daysRemaining == "string" ) {
+        return '';
+      }
+
       return addDays(new Date(), this.row.daysRemaining).toLocaleDateString();
     }
   },
@@ -59,8 +70,7 @@ export default defineComponent({
       <span data-bs-toggle="tooltip"
             data-bs-placement="right"
             :title="lastDay">
-      {{ row.daysRemaining.toFixed(1) }}
-
+      {{ daysRemaining }}
       </span>
     </td>
     <td>
