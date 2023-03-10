@@ -3,7 +3,7 @@ import {defineComponent} from "vue";
 import FilterSection from "@/components/remaining/FilterSection.vue";
 import RemainingTable from "@/components/remaining/RemainingTable.vue";
 import Datepicker from "@vuepic/vue-datepicker";
-import {startOfDay, startOfMonth, startOfYear, subDays} from "date-fns";
+import {startOfDay, subDays, subYears} from "date-fns";
 import type {Filter, FilterType} from "@/components/remaining/Filter";
 import type {ProductVariantStatsOutput} from "@/api/shopify-data";
 import {StatsApi} from "@/util/api";
@@ -16,23 +16,20 @@ export default defineComponent({
   data() {
     return {
       loading: false,
-      fromDate: startOfMonth(now),
+      fromDate: subDays(now, 30),
       filters: [] as Filter[],
       productVariantStats: [] as ProductVariantStatsOutput[],
       fitToken: "" as string
     };
   },
   methods: {
-    setDate(type: 'START-YEAR' | 'START-MONTH' | '30-DAYS'): void {
+    setDate(type: '30-DAYS' | '1-YEAR'): void {
       switch (type) {
-        case "START-YEAR":
-          this.fromDate = startOfYear(now);
-          break;
-        case "START-MONTH":
-          this.fromDate = startOfMonth(now);
-          break;
         case "30-DAYS":
           this.fromDate = subDays(now, 30);
+          break;
+        case "1-YEAR":
+          this.fromDate = subYears(now, 1);
           break;
       }
     },
@@ -99,8 +96,8 @@ export default defineComponent({
 
       <div class="row mb-2">
         <div class="d-grid">
-          <button type="button" class="btn btn-outline-primary" @click="setDate('START-YEAR')">
-            I år
+          <button type="button" class="btn btn-outline-primary" @click="setDate('1-YEAR')">
+            Sidste år
           </button>
         </div>
       </div>
