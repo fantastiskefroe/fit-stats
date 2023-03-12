@@ -24,7 +24,11 @@ export default defineComponent({
         return '';
       }
 
-      return addDays(new Date(), this.row.daysRemaining).toLocaleDateString();
+      return addDays(new Date(), this.row.daysRemaining).toLocaleDateString("da-DK", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
     }
   },
   methods: {
