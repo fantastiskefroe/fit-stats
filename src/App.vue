@@ -20,7 +20,10 @@ import ToastComponent from "@/components/toast/ToastComponent.vue";</script>
       <div class="collapse navbar-collapse" id="navbarCollapseContent">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/">Hjem</RouterLink>
+            <RouterLink class="nav-link" to="/">Dashboard</RouterLink>
+          </li>
+          <li class="nav-item">
+            <RouterLink class="nav-link" to="/grouped">Grafer</RouterLink>
           </li>
           <li class="nav-item">
             <RouterLink class="nav-link" to="/remaining">Tilbageværende lager</RouterLink>
