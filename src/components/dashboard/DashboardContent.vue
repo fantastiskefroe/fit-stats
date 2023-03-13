@@ -11,12 +11,14 @@ import {
   startOfYear,
   subDays,
   subMonths,
+  subWeeks,
   subYears
 } from "date-fns";
 import {defineComponent} from "vue";
 import type {StatsOutput} from "@/api/shopify-data";
 import {loadToken} from "@/util/token-service";
 import DataCard from "@/components/dashboard/DataCard.vue";
+import {endOfWeekMon, startOfWeekMon} from "@/util/date-service";
 
 const now = new Date();
 
@@ -29,6 +31,11 @@ export default defineComponent({
       presetRanges: [
         {label: 'I dag', range: [now, now]},
         {label: 'I går', range: [subDays(now, 1), subDays(now, 1)]},
+        {label: 'Denne uge', range: [startOfWeekMon(now,), endOfWeekMon(now)]},
+        {
+          label: 'Sidste uge',
+          range: [startOfWeekMon(subWeeks(now, 1)), endOfWeekMon(subWeeks(now, 1))]
+        },
         {label: 'Denne måned', range: [startOfMonth(now), endOfMonth(now)]},
         {
           label: 'Sidste måned',
@@ -124,14 +131,16 @@ export default defineComponent({
                 title="Ordrer"/>
     </div>
     <div class="col">
-      <DataCard :data="taxMultiplier(stats?.totalOrderValue)?.toLocaleString('da-dk', {useGrouping: false})"
-                :data-formatted="formatCurrency(taxMultiplier(stats?.totalOrderValue))"
-                title="Total salg"/>
+      <DataCard
+          :data="taxMultiplier(stats?.totalOrderValue)?.toLocaleString('da-dk', {useGrouping: false})"
+          :data-formatted="formatCurrency(taxMultiplier(stats?.totalOrderValue))"
+          title="Total salg"/>
     </div>
     <div class="col">
-      <DataCard :data="taxMultiplier(stats?.averageOrderValue)?.toLocaleString('da-dk', {useGrouping: false})"
-                :data-formatted="formatCurrency(taxMultiplier(stats?.averageOrderValue))"
-                title="Gennemsnitsordre"/>
+      <DataCard
+          :data="taxMultiplier(stats?.averageOrderValue)?.toLocaleString('da-dk', {useGrouping: false})"
+          :data-formatted="formatCurrency(taxMultiplier(stats?.averageOrderValue))"
+          title="Gennemsnitsordre"/>
     </div>
     <div class="col">
       <DataCard :data="stats?.numberOfOrderLines?.toLocaleString('da-dk', {useGrouping: false})"
@@ -139,14 +148,16 @@ export default defineComponent({
                 title="Ordrelinjer"/>
     </div>
     <div class="col">
-      <DataCard :data="taxMultiplier(stats?.totalOrderLineValue)?.toLocaleString('da-dk', {useGrouping: false})"
-                :data-formatted="formatCurrency(taxMultiplier(stats?.totalOrderLineValue))"
-                title="Total ordrelinjeværdi"/>
+      <DataCard
+          :data="taxMultiplier(stats?.totalOrderLineValue)?.toLocaleString('da-dk', {useGrouping: false})"
+          :data-formatted="formatCurrency(taxMultiplier(stats?.totalOrderLineValue))"
+          title="Total ordrelinjeværdi"/>
     </div>
     <div class="col">
-      <DataCard :data="taxMultiplier(stats?.averageOrderLineValue)?.toLocaleString('da-dk', {useGrouping: false})"
-                :data-formatted="formatCurrency(taxMultiplier(stats?.averageOrderLineValue))"
-                title="Gennemsnitsordrelinje"/>
+      <DataCard
+          :data="taxMultiplier(stats?.averageOrderLineValue)?.toLocaleString('da-dk', {useGrouping: false})"
+          :data-formatted="formatCurrency(taxMultiplier(stats?.averageOrderLineValue))"
+          title="Gennemsnitsordrelinje"/>
     </div>
     <div class="col">
       <DataCard v-if="stats?.totalOrderWeight != null"
@@ -155,9 +166,10 @@ export default defineComponent({
                 title="Total vægt"/>
     </div>
     <div class="col">
-      <DataCard :data="taxMultiplier(stats?.totalShippingValue)?.toLocaleString('da-dk', {useGrouping: false})"
-                :data-formatted="formatCurrency(taxMultiplier(stats?.totalShippingValue))"
-                title="Total fragt"/>
+      <DataCard
+          :data="taxMultiplier(stats?.totalShippingValue)?.toLocaleString('da-dk', {useGrouping: false})"
+          :data-formatted="formatCurrency(taxMultiplier(stats?.totalShippingValue))"
+          title="Total fragt"/>
     </div>
     <div class="col">
       <DataCard v-if="stats?.totalOrderWeight != null"
